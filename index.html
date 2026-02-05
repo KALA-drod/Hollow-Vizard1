@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hollow Vizard | Winner Place</title>
+    <style>
+        /* Menggunakan style dasar dari file aslimu */
+        body { margin: 0; background: #000; font-family: Arial, sans-serif; color: #fff; overflow-x: hidden; }
+        
+        .background-overlay {
+            position: fixed; inset: 0;
+            /* Ganti dengan URL gambar map-mu */
+            background: url('https://cdn.discordapp.com/attachments/1059673841053470750/1468785630505996411/thumbnail.png?ex=698548b7&is=6983f737&hm=5257aa1420868326b02eeb8cf8b5122a5eb2e0c20c08ef52c152d49578067a91&') no-repeat center center;
+            background-size: cover; opacity: 0.3; z-index: 0; pointer-events: none;
+        }
+
+        .topbar {
+            position: sticky;
+            top: 0;
+            background: rgba(153, 0, 0, 0.8);
+            padding: 15px 25px;
+            border-bottom: 2px solid var(--neon-green);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .map-frame {
+            position: relative; width: min(95vw, 1000px); margin: 50px auto;
+            border: 2px solid rgba(231, 0, 0, 0.548); border-radius: 15px;
+            background: #7e0000; overflow: hidden; z-index: 2; aspect-ratio: 1 / 1;
+        }
+
+        .map-frame img#main-map { width: 100%; height: 100%; object-fit: contain; }
+
+        /* Animasi Pulse Titik */
+        .zone {
+            position: absolute; width: 60px; height: 60px; cursor: pointer;
+            animation: pulse 2s infinite ease-in-out; transform: translate(-50%, -50%);
+            z-index: 10;
+        }
+
+        @keyframes pulse {
+            0% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }
+            50% { transform: translate(-50%, -50%) scale(1.2); filter: brightness(1.5); }
+            100% { transform: translate(-50%, -50%) scale(1); filter: brightness(1); }
+        }
+
+        .zone img { width: 100%; height: 100%; object-fit: contain; }
+
+        /* Info Box Style */
+        #info-box {
+            position: fixed; top: 50%; right: 20px; transform: translateY(-50%);
+            width: 250px; background: #0f1f1d; border: 2px solid #00ffcc;
+            padding: 15px; border-radius: 12px; display: none; z-index: 100;
+            box-shadow: 0 0 15px #00ffcc;
+        }
+
+        #info-box.active { display: block; }
+        #info-box img { width: 100%; border-radius: 8px; margin: 10px 0; border: 1px solid #444; }
+        .track-name { color: #fff200; font-weight: bold; text-align: center; font-size: 1.2rem; }
+        .details { font-size: 0.8rem; margin-top: 10px; }
+        .details div { display: flex; justify-content: space-between; padding: 3px 0; border-bottom: 1px solid #222; }
+    </style>
+</head>
+<body>
+
+    <div class="background-overlay"></div>
+
+    <div class="map-frame" id="map-container">
+        <img id="main-map" src="https://cdn.discordapp.com/attachments/1059673841053470750/1468966385328848960/20260205_224424.jpg?ex=6985f10e&is=69849f8e&hm=4ee10eccc0c3ec0192dd5101be892b49669cb8a3153e19797194817e38609199&" alt="Street Map">
+
+        <div class="zone" onclick="showInfo(1, event)" style="top: 20.94%; left: 5.36%;">
+            <img src="https://cdn.discordapp.com/attachments/1453163879604424885/1465993367900000401/20260128_155353.png?ex=69850377&is=6983b1f7&hm=4c081f4cf25a872b27d466fa34763624a12e15322e534c21fe7064d46d28c106&" alt="Logo">
+        </div>
+
+        <div class="zone" onclick="showInfo(2, event)" style="top: 88.74%; left: 78.14%;">
+            <img src="https://cdn.discordapp.com/attachments/1453163879604424885/1465993367900000401/20260128_155353.png?ex=69850377&is=6983b1f7&hm=4c081f4cf25a872b27d466fa34763624a12e15322e534c21fe7064d46d28c106&" alt="Logo">
+        </div>
+
+        <div class="zone" onclick="showInfo(3, event)" style="top: 83.65%; left: 85.42%;">
+            <img src="https://cdn.discordapp.com/attachments/1059673841053470750/1468820216082600008/20251208_161140.png?ex=698568ec&is=6984176c&hm=7bcc365a2e6320eabd86ba05ecd92f1ec86455953ecc1284004e9eae19507e36&" alt="Logo">
+        </div>
+
+        <div class="zone" onclick="showInfo(4, event)" style="top: 46.91%; left: 2.97%;">
+            <img src="https://cdn.discordapp.com/attachments/1059673841053470750/1468820216082600008/20251208_161140.png?ex=698568ec&is=6984176c&hm=7bcc365a2e6320eabd86ba05ecd92f1ec86455953ecc1284004e9eae19507e36&" alt="Logo">
+        </div>
+        
+        <div class="zone" onclick="showInfo(5, event)" style="top: 48.31%; left: 9.35%;">
+            <img src="https://cdn.discordapp.com/attachments/1059673841053470750/1468820216082600008/20251208_161140.png?ex=698568ec&is=6984176c&hm=7bcc365a2e6320eabd86ba05ecd92f1ec86455953ecc1284004e9eae19507e36&" alt="Logo">
+        </div>
+
+        <div class="zone" onclick="showInfo(6, event)" style="top: 48.26%; left: 76.35%;">
+            <img src="https://cdn.discordapp.com/attachments/1059673841053470750/1468820216082600008/20251208_161140.png?ex=698568ec&is=6984176c&hm=7bcc365a2e6320eabd86ba05ecd92f1ec86455953ecc1284004e9eae19507e36&" alt="Logo">
+        </div>
+    </div>
+
+    <div id="info-box">
+        <div class="track-name" id="info-name">TRACK NAME</div>
+        <img id="info-track-img" src="" alt="Route">
+        <div class="details">
+            <div><span>Codename:</span><strong id="info-club">-</strong></div>
+            <div><span>Record:</span><strong id="info-record">-</strong></div>
+            <div><span>Prize:</span><strong id="info-cash">-</strong></div>
+        </div>
+        <button onclick="document.getElementById('info-box').classList.remove('active')" style="width:100%; margin-top:10px; cursor:pointer;">CLOSE</button>
+    </div>
+
+    <script>
+        // Data yang muncul saat diklik
+        const zoneData = {
+            1: { name: "Tierra Rodaba Quilt", club: "E47", record: "01:22:11", cash: "$5.000", track: "https://cdn.discordapp.com/attachments/1457893434588397609/1457893435121078322/20260106_091929.png?ex=69853591&is=6983e411&hm=09e8be35f170917e32aed77b18cfd745c14db80a34ee76f9253a3eed6ab55d4b&" },
+            2: { name: "LSI Speedhunt", club: "E47", record: "02:05:44", cash: "$4.000", track: "https://cdn.discordapp.com/attachments/1454495783956254831/1454495789173702738/20251228_002447.png?ex=69855f83&is=69840e03&hm=0acfde4c2f2eff2ddaba9258971e7f3b4f1df230fa1cd95087c1ecfa161afdee&" },
+            3: { name: "Ocean Docks Showdown", club: "WILD C4RD", record: "01:56:43", cash: "$3.000", track: "https://cdn.discordapp.com/attachments/1453573379146645605/1453573379369078856/20251224_221159.png?ex=69855033&is=6983feb3&hm=d7eda31579a691214d1e25cdbf2acd2c885c03bd5a63b023870f7ad51edee66c&" },
+            4: { name: "Ocean Flat Rush", club: "WILD C4RD", record: "01:43:12", cash: "$2.000", track: "https://cdn.discordapp.com/attachments/1445642156042616997/1445642156243947630/20251203_140329.png?ex=6984cdec&is=69837c6c&hm=27dc0fd23e3381f9e16018db7f831c5d9a7534d021802ed4cd852ba6707dd84b&" },
+            5: { name: "Queens Parking Lot", club: "WILD C4RD", record: "01:25:46", cash: "$6.500", track: "https://cdn.discordapp.com/attachments/1445641990036258856/1445641990304825505/20251203_140400.png?ex=6984cdc5&is=69837c45&hm=efae71fab2f03e9d4ada15245c3dd37b639f034c614acef2c088570c2be354ab&" },
+            6: { name: "Palomino Ghostline", club: "WILD C4RD", record: "-", cash: "$2.000", track: "https://cdn.discordapp.com/attachments/1468833371860897832/1468833372078866641/20260205_135704.png?ex=6985752d&is=698423ad&hm=d255709021aac7d3057801ecdede9ce1b228ee4900d4a5903b647333d5a856d9&" }
+        };
+
+        function showInfo(id, event) {
+            event.stopPropagation();
+            const data = zoneData[id];
+            if (!data) return;
+
+            document.getElementById('info-name').textContent = data.name;
+            document.getElementById('info-club').textContent = data.club;
+            document.getElementById('info-record').textContent = data.record;
+            document.getElementById('info-cash').textContent = data.cash;
+            document.getElementById('info-track-img').src = data.track;
+
+            document.getElementById('info-box').classList.add('active');
+        }
+
+        // ALAT BANTU: Klik di mana saja pada peta untuk dapat koordinat!
+        document.getElementById('map-container').addEventListener('click', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = ((e.clientX - rect.left) / rect.width * 100).toFixed(2);
+            const y = ((e.clientY - rect.top) / rect.height * 100).toFixed(2);
+            
+            console.log(`Top: ${y}%, Left: ${x}%`);
+            alert(`Koordinat untuk Titik Baru:\ntop: ${y}%;\nleft: ${x}%;`);
+        });
+    </script>
+</body>
+</html>
